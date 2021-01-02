@@ -2,6 +2,8 @@ import api.Owners.Owners;
 import api.OwnersApiClient;
 import api.common.ApiResponse;
 import api.common.exception.InvalidResponseException;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -27,6 +29,7 @@ public class OwnersApiTest {
 
 
     //get all the owner details using GET method
+
     public void getOwners_Information() throws InvalidResponseException {
         OwnersApiClient client = new OwnersApiClient(apiUrl);
              Owners[] owners = client.getOwners();
@@ -36,6 +39,7 @@ public class OwnersApiTest {
         softly.assertThat(owners[1].getId()).isEqualTo("3");
         softly.assertThat(owners[2].getId()).isNotSameAs(owners[3].getId());
         softly.assertAll();
+        validateResponseTime();
     }
 
 
@@ -54,6 +58,7 @@ public class OwnersApiTest {
             softly.assertThat(createdOwner.getId()).isNotBlank();
             softly.assertThat(createdOwner.getId()).isGreaterThan("1");
             softly.assertAll();
+        validateResponseTime();
 
     }
 
@@ -67,5 +72,17 @@ public class OwnersApiTest {
         softly.assertThat(deletedOwners.getHttpStatusCode()).isEqualTo(204);
         System.out.print("The Deleted Id is :"+ownerId);  //to check if the ID deleted is same as passed in Request URI
         softly.assertAll();
+        validateResponseTime();
+    }
+
+    //To calculate the response time taken by each HTTP method
+    public void validateResponseTime() {
+        Response resp = RestAssured.get(apiUrl);
+
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(resp.getTime()).isLessThan(2000);
+        System.out.println("The response Time is : "+resp.getTime());
+
+
     }
 }
