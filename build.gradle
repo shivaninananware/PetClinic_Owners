@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(':api-common')
+    implementation project(':com.fedex.apicommon.owner')
     implementation 'org.codehaus.groovy:groovy-all:3.0.6'
     implementation 'io.rest-assured:rest-assured:4.3.2'
     implementation 'com.google.code.gson:gson:2.8.6'

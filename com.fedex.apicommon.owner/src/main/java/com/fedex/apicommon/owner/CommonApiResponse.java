@@ -1,6 +1,6 @@
-package api.common;
+package com.fedex.apicommon.owner;
 
-import api.common.exception.InvalidResponseException;
+import com.fedex.apicommon.owner.exception.InvalidResponseException;
 import io.restassured.mapper.ObjectMapper;
 import io.restassured.response.Response;
 

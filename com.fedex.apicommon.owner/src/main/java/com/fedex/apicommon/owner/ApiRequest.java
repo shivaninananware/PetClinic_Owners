@@ -1,4 +1,4 @@
-package api.common;
+package com.fedex.apicommon.owner;
 
 import io.restassured.http.ContentType;
 import io.restassured.mapper.ObjectMapper;

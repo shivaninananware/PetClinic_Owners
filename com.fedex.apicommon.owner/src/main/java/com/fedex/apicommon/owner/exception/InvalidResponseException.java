@@ -1,4 +1,4 @@
-package api.common.exception;
+package com.fedex.apicommon.owner.exception;
 
 public class InvalidResponseException extends Exception {
 

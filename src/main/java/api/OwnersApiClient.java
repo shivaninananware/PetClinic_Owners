@@ -1,10 +1,10 @@
 package api;
 
 import api.Owners.Owners;
-import api.common.ApiClient;
-import api.common.ApiRequest;
-import api.common.ApiResponse;
-import api.common.exception.InvalidResponseException;
+import com.fedex.apicommon.owner.ApiClient;
+import com.fedex.apicommon.owner.ApiRequest;
+import com.fedex.apicommon.owner.ApiResponse;
+import com.fedex.apicommon.owner.exception.InvalidResponseException;
 import com.google.gson.GsonBuilder;
 import io.restassured.config.ObjectMapperConfig;
 import io.restassured.http.Method;
@@ -13,18 +13,11 @@ import io.restassured.mapper.ObjectMapperType;
 
 public class OwnersApiClient extends ApiClient {
 
-    public OwnersApiClient (String baseUrl , String id) {
-        super(baseUrl, "/api/owners/"   +id);
-
-        ObjectMapperConfig config = new ObjectMapperConfig(ObjectMapperType.GSON)
-                .gsonObjectMapperFactory((type, s) -> new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create());
-        setObjectMapper(new GsonMapper(config.gsonObjectMapperFactory()));
 
 
-    }
 
-    public OwnersApiClient (String baseUrl) {
-            super(baseUrl, "/api/owners");
+    public OwnersApiClient (String baseUrl , String basePathOwners) {
+            super(baseUrl, basePathOwners);
 
 
             ObjectMapperConfig config = new ObjectMapperConfig(ObjectMapperType.GSON)
@@ -35,6 +28,10 @@ public class OwnersApiClient extends ApiClient {
         public Owners[] getOwners() throws InvalidResponseException {
             ApiResponse<Owners[]> response = caller.executeRequest(getRequest(), Method.GET, Owners[].class);
             return  response.getContent();
+
+
+
+
         }
     //POST
     public Owners createOwner(Owners owner) throws InvalidResponseException {
@@ -44,8 +41,11 @@ public class OwnersApiClient extends ApiClient {
     }
     //DELETE
    public ApiResponse<Owners[]> deleteOwner() throws InvalidResponseException{
+
             ApiResponse<Owners[]> response = caller.executeRequest(getRequest(),Method.DELETE,Owners[].class);
             return response;
+
+
     }
 
 

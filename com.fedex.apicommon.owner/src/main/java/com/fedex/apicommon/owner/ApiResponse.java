@@ -1,6 +1,6 @@
-package api.common;
+package com.fedex.apicommon.owner;
 
-import api.common.exception.InvalidResponseException;
+import com.fedex.apicommon.owner.exception.InvalidResponseException;
 
 public interface ApiResponse<T> {
     T getContent() throws InvalidResponseException;

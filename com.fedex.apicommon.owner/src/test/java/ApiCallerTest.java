@@ -1,8 +1,8 @@
-import api.common.ApiCaller;
-import api.common.ApiRequest;
-import api.common.ApiResponse;
-import api.common.CommonApiRequest;
-import api.common.exception.InvalidResponseException;
+import com.fedex.apicommon.owner.ApiCaller;
+import com.fedex.apicommon.owner.ApiRequest;
+import com.fedex.apicommon.owner.ApiResponse;
+import com.fedex.apicommon.owner.CommonApiRequest;
+import com.fedex.apicommon.owner.exception.InvalidResponseException;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import data.JsonResponse;
 import io.restassured.http.Method;
@@ -31,7 +31,7 @@ public class ApiCallerTest {
     public void executeRequest_noExtraPathRequest_shouldReturnResponse() throws InvalidResponseException {
         //Arrange
         wireMockServer.stubFor(get(urlEqualTo("/test")).willReturn(aResponse().withStatus(200).
-                withHeader("Content-Type", "application/json").withBody("{\"status\": 1}")));
+                    withHeader("Content-Type", "application/json").withBody("{\"status\": 1}")));
         ApiRequest apiRequest = new CommonApiRequest("http://localhost:8089", "/test");
         //Act
         ApiCaller apiCaller = new ApiCaller();
