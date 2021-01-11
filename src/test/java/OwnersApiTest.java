@@ -9,10 +9,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 
+
 public class OwnersApiTest {
 
     static String apiUrl;
-    private String ownerId;
+
 
 
     @BeforeAll
@@ -22,8 +23,9 @@ public class OwnersApiTest {
 
 
     //get all the owner details using GET method
+
     @Test
-    public void getOwners_Information_ShouldCheckUniqueId() throws InvalidResponseException {
+    public void accessOwners_Information_ShouldCheckUniqueId() throws InvalidResponseException {
         OwnersApiClient client = new OwnersApiClient(apiUrl, "/api/owners/");
         Owners[] owners = client.getOwners();
 
@@ -38,6 +40,7 @@ public class OwnersApiTest {
 
 
     //create a new owner using POST method
+
     @Test
 
     public void createOwner_checkId_ShouldReturnNewOwner() throws InvalidResponseException {
@@ -48,6 +51,8 @@ public class OwnersApiTest {
                 .address("Hogwarts,Scotland").city("Glasgow")
                 .telephone("+567891523")
                 .build());
+
+
 
 
         SoftAssertions softly = new SoftAssertions();
@@ -64,6 +69,7 @@ public class OwnersApiTest {
 
 
     //delete the owner created  by passing ID of it
+
     @Test
 
     public void deleteNewOwners_throughID_ShouldDisplayDeletedId() throws InvalidResponseException {
@@ -76,7 +82,7 @@ public class OwnersApiTest {
                 .telephone("789412051")
                 .build());
 
-        ownerId = newOwner.getId(); //fetch the new owner ID
+        String ownerId = newOwner.getId(); //fetch the new owner ID
 
 
         OwnersApiClient client1 = new OwnersApiClient(apiUrl, "/api/owners/" + ownerId);
