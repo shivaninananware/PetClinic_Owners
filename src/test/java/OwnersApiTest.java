@@ -8,11 +8,16 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileInputStream;
+
+import java.io.IOException;
+import java.util.Properties;
 
 
 public class OwnersApiTest {
 
     static String apiUrl;
+
 
 
 
@@ -43,20 +48,23 @@ public class OwnersApiTest {
 
     @Test
 
-    public void createOwner_checkId_ShouldReturnNewOwner() throws InvalidResponseException {
+    public void createOwner_checkId_ShouldReturnNewOwner() throws InvalidResponseException, IOException {
+
+        Properties pro = new Properties();
+        FileInputStream file = new FileInputStream("C:\\Users\\Shivani\\IdeaProjects\\PetClinic_Owners\\src\\main\\java\\api\\PostData.Properties");
+        pro.load(file);
+
         OwnersApiClient client = new OwnersApiClient(apiUrl, "/api/owners/");
 
-        Owners createdOwner = client.createOwner(Owners.builder().
-                firstName("Harry").lastName("Potter")
-                .address("Hogwarts,Scotland").city("Glasgow")
-                .telephone("+567891523")
-                .build());
+        Owners createdOwner = client.createOwner(Owners.builder().firstName(pro.getProperty("firstName"))
+                .lastName(pro.getProperty("lastName")).address(pro.getProperty("address")).city(pro.getProperty("city"))
+                .telephone(pro.getProperty("telephone")).build());
 
 
 
 
         SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(createdOwner.getFirstName()).as("First name should be Harry").isEqualTo("Harry");
+        softly.assertThat(createdOwner.getFirstName()).as("First name should be Harry").isEqualTo(pro.getProperty("firstName"));
         softly.assertThat(createdOwner.getId()).as("A unique ID should be populated").isNotBlank();
         softly.assertThat(createdOwner.getId()).as("Id is different than the existing one's").isGreaterThan("1");
 
@@ -72,19 +80,24 @@ public class OwnersApiTest {
 
     @Test
 
-    public void deleteNewOwners_throughID_ShouldDisplayDeletedId() throws InvalidResponseException {
-
+    public void deleteNewOwners_throughID_ShouldDisplayDeletedId() throws InvalidResponseException, IOException {
         //create a new owner
+        Properties pro = new Properties();
+        FileInputStream file = new FileInputStream("C:\\Users\\Shivani\\IdeaProjects\\PetClinic_Owners\\src\\main\\java\\api\\PostData.Properties");
+        pro.load(file);
+
         OwnersApiClient client = new OwnersApiClient(apiUrl, "/api/owners/");
-        Owners newOwner = client.createOwner(Owners.builder().
-                firstName("Paul").lastName("Simpson")
-                .address("Salisbury Street , 12/A").city("London")
-                .telephone("789412051")
-                .build());
+
+        Owners newOwner = client.createOwner(Owners.builder().firstName(pro.getProperty("firstName"))
+                .lastName(pro.getProperty("lastName")).address(pro.getProperty("address")).city(pro.getProperty("city"))
+                .telephone(pro.getProperty("telephone")).build());
+
+
+
 
         String ownerId = newOwner.getId(); //fetch the new owner ID
 
-
+        //delete the created owner
         OwnersApiClient client1 = new OwnersApiClient(apiUrl, "/api/owners/" + ownerId);
         ApiResponse<Owners[]> deletedOwners = client1.deleteOwner();
 
